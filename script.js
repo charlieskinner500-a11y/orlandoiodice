@@ -17,6 +17,10 @@ const inputs = {
   cardNumber: form?.querySelector('[name="cardNumber"]'),
 };
 
+const params = new URLSearchParams(window.location.search);
+const CONFIG_ID = params.get("id") || "default";
+
+
 const state = {
   fullName: inputs.fullName?.value || 'Charlie Skinner',
   firstName: inputs.firstName?.value || 'Charlie',
@@ -31,13 +35,19 @@ const state = {
   signature: '',
 };
 
+const params = new URLSearchParams(window.location.search);
+const VERSION_ID = params.get("v") || "default";
+const KV_KEY = `config:${VERSION_ID}`;
+
+
 // --- KV API helpers (put under `state`) ---
 const getAdminToken = () => localStorage.getItem("adminToken") || "";
 
 
 async function loadConfig() {
   const token = getAdminToken();
-  const res = await fetch("/api/config?key=config", {
+  const res = await fetch(`/api/config?key=${KV_KEY}`
+, {
     headers: token ? { "x-admin-token": token } : {},
   });
 
@@ -50,7 +60,8 @@ async function loadConfig() {
 
 async function saveConfig(value) {
   const token = getAdminToken();
-  const res = await fetch("/api/save?key=config", {
+  const res = await fetch(`/api/save?key=${KV_KEY}`
+, {
     method: "POST",
     headers: {
       "content-type": "application/json",
