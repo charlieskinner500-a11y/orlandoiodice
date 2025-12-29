@@ -46,10 +46,10 @@ const getAdminToken = () => localStorage.getItem("adminToken") || "";
 
 async function loadConfig() {
   const token = getAdminToken();
-  const res = await fetch(`/api/config?key=${KV_KEY}&_=${Date.now()}`, {
-    headers: token ? { "x-admin-token": token } : {},
-    cache: "no-store",
-  });
+  const res = await fetch(`/api/config?key=${encodeURIComponent(KV_KEY)}`, {
+  cache: "no-store",
+});
+
 
   if (!res.ok) return null;
   const data = await res.json();
@@ -60,15 +60,18 @@ async function loadConfig() {
 
 async function saveConfig(value) {
   const token = getAdminToken();
-  const res = await fetch(`/api/save?key=${KV_KEY}`
-, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      ...(token ? { "x-admin-token": token } : {}),
-    },
-    body: JSON.stringify({ value }),
-  });
+  const res = await fetch(`/api/save?key=${encodeURIComponent(KV_KEY)}`, {
+  method: "POST",
+  headers: {
+    "content-type": "application/json",
+    "x-admin-token": localStorage.getItem("adminToken") || "",
+  },
+  body: JSON.stringify({
+    value: dataToSave,
+  }),
+});
+
+
 
   if (!res.ok) throw new Error(await res.text());
   return res.json();
