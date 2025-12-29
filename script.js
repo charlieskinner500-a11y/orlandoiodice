@@ -58,24 +58,35 @@ async function loadConfig() {
 
 
 
-async function saveConfig(value) {
-  const token = getAdminToken();
+async function saveConfig() {
+  const form = document.querySelector("form");
+
+  if (!form) {
+    console.error("Save failed: no form found");
+    return;
+  }
+
+  const formData = new FormData(form);
+  const value = {};
+
+  for (const [key, val] of formData.entries()) {
+    value[key] = val;
+  }
+
   const res = await fetch(`/api/save?key=${encodeURIComponent(KV_KEY)}`, {
-  method: "POST",
-  headers: {
-    "content-type": "application/json",
-    "x-admin-token": localStorage.getItem("adminToken") || "",
-  },
-  body: JSON.stringify({
-    value: dataToSave,
-  }),
-});
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "x-admin-token": localStorage.getItem("adminToken") || "",
+    },
+    body: JSON.stringify({ value }),
+  });
 
-
-
-  if (!res.ok) throw new Error(await res.text());
-  return res.json();
+  if (!res.ok) {
+    console.error("Save failed", await res.text());
+  }
 }
+
 
 
 
