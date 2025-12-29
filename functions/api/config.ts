@@ -1,17 +1,11 @@
-export async function onRequestGet({ request, env }) {
-  const url = new URL(request.url);
-  const key = url.searchParams.get("key");
-
-  if (!key) {
-    return new Response("Missing key", { status: 400 });
+export async function onRequestGet({ env }) {
+  if (!env.SITE_KV) {
+    return new Response("SITE_KV MISSING", { status: 500 });
   }
 
-  const value = await env.SITE_KV.get(key);
-  return new Response(
-    JSON.stringify({ value: value ? JSON.parse(value) : null }),
-    { headers: { "Content-Type": "application/json" } }
-  );
+  return new Response("SITE_KV OK");
 }
+
 
 
 
