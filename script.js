@@ -55,17 +55,18 @@ async function saveConfig(value) {
         "Content-Type": "application/json",
         "X-Admin-Token": token,
       },
-      body: JSON.stringify(value),
+      body: JSON.stringify({ value }), // 👈 THIS is the critical fix
     }
   );
 
   if (!res.ok) {
     const text = await res.text();
-    throw new Error(text || "Save failed");
+    throw new Error(text);
   }
 
-  return true;
+  return res.json();
 }
+
 
 
 
