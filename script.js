@@ -1,3 +1,23 @@
+(function () {
+  const url = new URL(window.location.href);
+
+  // If URL already has a version, do nothing
+  if (url.searchParams.has("v")) return;
+
+  // Check if we've already generated one for this device
+  let version = localStorage.getItem("site_version");
+
+  if (!version) {
+    version = crypto.randomUUID().slice(0, 8); // short + clean
+    localStorage.setItem("site_version", version);
+  }
+
+  // Redirect to unique URL
+  url.searchParams.set("v", version);
+  window.location.replace(url.toString());
+})();
+
+
 const screens = Array.from(document.querySelectorAll('.screen'));
 const tabbar = document.querySelector('.tabbar');
 const tabs = Array.from(document.querySelectorAll('.tab'));
@@ -43,16 +63,16 @@ const getAdminToken = () => localStorage.getItem("adminToken") || "";
 
 async function loadConfig() {
   const token = getAdminToken();
-  const res = await fetch(`/api/config?key=${KV_KEY}`
-, {
+  const res = await fetch(`/api/config?key=${KV_KEY}&_=${Date.now()}`, {
     headers: token ? { "x-admin-token": token } : {},
+    cache: "no-store",
   });
 
   if (!res.ok) return null;
-
   const data = await res.json();
   return data.value ?? null;
 }
+
 
 
 async function saveConfig(value) {
