@@ -35,9 +35,8 @@ const state = {
   signature: '',
 };
 
-const params = new URLSearchParams(window.location.search);
-const VERSION_ID = params.get("v") || "default";
-const KV_KEY = `config:${VERSION_ID}`;
+const KV_KEY = "config:main";
+
 
 
 // --- KV API helpers (put under `state`) ---
