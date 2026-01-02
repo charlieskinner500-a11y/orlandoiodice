@@ -22,10 +22,10 @@ const inputs = {
 
 
 const state = {
-  fullName: inputs.fullName?.value || 'Charlie Skinner',
-  firstName: inputs.firstName?.value || 'Charlie',
-  address1: inputs.address1?.value || '76 Nott st',
-  address2: inputs.address2?.value || 'Springfield, VIC 3000',
+  fullName: inputs.fullName?.value || 'Orlando Iodice',
+  firstName: inputs.firstName?.value || 'Orland',
+  address1: inputs.address1?.value || '196 Nelson Road',
+  address2: inputs.address2?.value || 'Albert Park, VIC 3206',
   dob: inputs.dob?.value || '22/07/07',
   permit: inputs.permit?.value || '73204715',
   issueDate: inputs.issueDate?.value || '05/02/2025',
@@ -301,3 +301,5 @@ setTimeout(() => {
   if (loading) loading.style.display = 'none';
   showScreen('lock');
 }, 1000);
+
+ 
