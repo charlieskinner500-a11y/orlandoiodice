@@ -193,7 +193,7 @@ const licSignature = document.getElementById('licSignature');
 const refreshTime = document.getElementById('refreshTime');
 const licSignatureEmpty = document.getElementById('licSignatureEmpty');
 
-const defaultPhoto = "assets/my-lic-photo.jpg";
+const defaultPhoto = "assets/orlando.png";
 
 const defaultSignature =
   'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="180" height="90"><rect width="180" height="90" fill="%23f6f7fa" stroke="%23d4d7de"/><path d="M20 50 C40 30, 70 70, 110 40 S160 70 150 50" stroke="%238a93a3" stroke-width="2" fill="none"/></svg>';
